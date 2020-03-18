@@ -1,6 +1,7 @@
 package com.mrcd.ok.adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
@@ -19,6 +20,13 @@ interface HolderHelper<T> {
      * @return item视图对象
      */
     void inflateItemView(@NonNull LayoutInflater inflater, @NonNull ViewGroup group);
+
+    /**
+     * 初始化View的方法
+     *
+     * @param itemView itemView
+     */
+    void initViews(@NonNull View itemView);
 
     /**
      * 初始化，绑定数据的方法

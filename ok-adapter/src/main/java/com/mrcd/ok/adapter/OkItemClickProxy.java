@@ -4,11 +4,11 @@ import android.util.SparseArray;
 import android.view.View;
 import com.mrcd.ok.adapter.OkBean.OkBeanWrapper;
 
-class OkItemClickListener implements OnItemClickListener<OkViewType> {
+class OkItemClickProxy implements OnItemClickListener<OkViewType> {
 
     private SparseArray<OnItemClickListener> mItemClickMap;
 
-    public OkItemClickListener(SparseArray<OnItemClickListener> itemClickMap) {
+    OkItemClickProxy(SparseArray<OnItemClickListener> itemClickMap) {
         mItemClickMap = itemClickMap;
     }
 

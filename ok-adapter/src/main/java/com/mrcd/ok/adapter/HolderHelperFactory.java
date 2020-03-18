@@ -4,7 +4,7 @@ import java.lang.reflect.Constructor;
 
 class HolderHelperFactory<T> {
 
-    protected Class<? extends OkHolderHelper<? extends T>> mInflaterClass;
+    private Class<? extends OkHolderHelper<? extends T>> mInflaterClass;
 
     HolderHelperFactory(Class<? extends OkHolderHelper<? extends T>> inflaterClass) {
         mInflaterClass = inflaterClass;

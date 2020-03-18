@@ -8,7 +8,7 @@ import android.view.View.OnClickListener;
  */
 public class OkSmoothClick implements View.OnClickListener {
 
-    public static final long DEFAULT_CLICK_DURING_TIME = 500;
+    private static final long DEFAULT_CLICK_DURING_TIME = 500;
 
     private long mClickDuring = DEFAULT_CLICK_DURING_TIME;
     private OnClickListener mOriginalClick;

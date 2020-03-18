@@ -10,14 +10,14 @@ public class OkAdapter extends SimpleAdapter<OkViewType> {
 
     public OkAdapter addItemClickListener(int viewType, OnItemClickListener<? extends OkViewType> itemClickListener) {
         mItemClickMap.put(viewType, itemClickListener);
-        super.defaultItemClickListener(new OkItemClickListener(mItemClickMap));
+        super.defaultItemClickListener(new OkItemClickProxy(mItemClickMap));
         return this;
     }
 
     @Override
     public OkAdapter defaultItemClickListener(OnItemClickListener<OkViewType> itemClickListener) {
         mItemClickMap.put(0, itemClickListener);
-        return (OkAdapter) super.defaultItemClickListener(new OkItemClickListener(mItemClickMap));
+        return (OkAdapter) super.defaultItemClickListener(new OkItemClickProxy(mItemClickMap));
     }
 
     @Override
