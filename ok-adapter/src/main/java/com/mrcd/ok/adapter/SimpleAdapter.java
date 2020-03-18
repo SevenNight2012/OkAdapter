@@ -10,32 +10,26 @@ import java.util.List;
 
 public class SimpleAdapter<T> extends RecyclerView.Adapter<OkViewHolder> {
 
-    private List<T> mData = new ArrayList<>();
+    protected final List<T> mData = new ArrayList<>();
 
     private LayoutInflater mInflater;
     private SparseArray<HolderHelperFactory<? extends T>> mFactoryMap = new SparseArray<>();
-    private HolderHelperFactory mErrorFactory;
 
     private OnItemClickListener<T> mItemClickListener;
 
     public SimpleAdapter() {
     }
 
-    public <D extends T> SimpleAdapter(Class<? extends OkHolderHelper<D>> helpClass) {
-        registerViewType(0, helpClass);
+    public SimpleAdapter(Class<? extends OkHolderHelper<? extends T>> helpClass) {
+        addViewType(0, helpClass);
     }
 
-    public <D extends T> SimpleAdapter registerViewType(int viewType, Class<? extends OkHolderHelper<D>> helperClass) {
-        mFactoryMap.put(viewType, new HolderHelperFactory<D>(helperClass));
+    public SimpleAdapter addViewType(int viewType, Class<? extends OkHolderHelper<? extends T>> helperClass) {
+        mFactoryMap.put(viewType, new HolderHelperFactory<>(helperClass));
         return this;
     }
 
-    public SimpleAdapter setErrorHolderHelperFactory(HolderHelperFactory<Object> errorFactory) {
-        mErrorFactory = errorFactory;
-        return this;
-    }
-
-    public SimpleAdapter setItemClickListener(OnItemClickListener<T> itemClickListener) {
+    public SimpleAdapter<T> defaultItemClickListener(OnItemClickListener<T> itemClickListener) {
         mItemClickListener = itemClickListener;
         return this;
     }
@@ -49,7 +43,7 @@ public class SimpleAdapter<T> extends RecyclerView.Adapter<OkViewHolder> {
         notifyItemRangeChanged(size, 1);
     }
 
-    public <D extends T> void addDataList(List<D> dataList) {
+    public void addDataList(List<? extends T> dataList) {
         if (null == dataList || dataList.size() == 0) {
             return;
         }
@@ -66,7 +60,7 @@ public class SimpleAdapter<T> extends RecyclerView.Adapter<OkViewHolder> {
         notifyItemRangeInserted(0, 1);
     }
 
-    public <D extends T> void addToHead(List<D> dataList) {
+    public void addToHead(List<? extends T> dataList) {
         if (null == dataList || dataList.size() == 0) {
             return;
         }
@@ -82,8 +76,9 @@ public class SimpleAdapter<T> extends RecyclerView.Adapter<OkViewHolder> {
         }
         //根据视图类型，获取视图渲染器工厂
         HolderHelperFactory factory = mFactoryMap.get(viewType);
-        //确保工厂的可用性
-        factory = null == factory ? getErrorFactory() : factory;
+        if (null == factory) {
+            throw new IllegalArgumentException("No factory has been found for view type > " + viewType);
+        }
         //工厂创建视图渲染器
         OkHolderHelper holderHelper = factory.createHolderInflater();
         //渲染器创建视图对象
@@ -96,13 +91,13 @@ public class SimpleAdapter<T> extends RecyclerView.Adapter<OkViewHolder> {
         return okViewHolder;
     }
 
-    private HolderHelperFactory getErrorFactory() {
-        return null == mErrorFactory ? new DefaultErrorFactory(null) : mErrorFactory;
-    }
-
     @Override
     public void onBindViewHolder(@NonNull OkViewHolder holder, int position) {
         holder.mHolderHelper.setupData(mData.get(position), position);
+        setupItemClick(holder,position);
+    }
+
+    protected void setupItemClick(@NonNull OkViewHolder holder, int position) {
         if (mItemClickListener != null) {
             holder.itemView.setOnClickListener(new OkSmoothClick(v -> {
                 mItemClickListener.onItemClick(v, mData.get(position), position, holder.getItemViewType());
