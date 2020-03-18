@@ -3,7 +3,10 @@ package com.mrcd.ok.adapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OkBean implements OkViewType {
+/**
+ * 包装工具类
+ */
+public final class OkBean {
 
     public static <D> OkViewType converter(D data, int viewType) {
         return new OkBeanWrapper(data, viewType);
@@ -13,6 +16,9 @@ public class OkBean implements OkViewType {
         return new ArrayList<>();
     }
 
+    /**
+     * 包装器
+     */
     static class OkBeanWrapper implements OkViewType {
 
         private Object mOriginalData;

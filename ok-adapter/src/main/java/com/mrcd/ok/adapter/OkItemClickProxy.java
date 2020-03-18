@@ -4,6 +4,9 @@ import android.util.SparseArray;
 import android.view.View;
 import com.mrcd.ok.adapter.OkBean.OkBeanWrapper;
 
+/**
+ * item点击的代理，分发类
+ */
 class OkItemClickProxy implements OnItemClickListener<OkViewType> {
 
     private SparseArray<OnItemClickListener> mItemClickMap;

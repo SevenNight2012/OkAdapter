@@ -84,16 +84,14 @@ public class SimpleAdapter<T> extends RecyclerView.Adapter<OkViewHolder> {
         //渲染器创建视图对象
         holderHelper.inflateItemView(mInflater, parent);
         //创建Holder对象
-        OkViewHolder okViewHolder = new OkViewHolder(holderHelper.itemView);
-        //将Holder对象与渲染器对象相互绑定
-        okViewHolder.mHolderHelper = holderHelper;
+        OkViewHolder okViewHolder = new OkViewHolder(holderHelper);
         holderHelper.setViewHolder(okViewHolder);
         return okViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull OkViewHolder holder, int position) {
-        holder.mHolderHelper.setupData(mData.get(position), position);
+        holder.getHelper().setupData(mData.get(position), position);
         setupItemClick(holder,position);
     }
 

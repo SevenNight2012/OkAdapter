@@ -8,6 +8,13 @@ public class OkAdapter extends SimpleAdapter<OkViewType> {
 
     private SparseArray<OnItemClickListener> mItemClickMap = new SparseArray<>();
 
+    public OkAdapter() {
+    }
+
+    public OkAdapter(Class<? extends OkHolderHelper<? extends OkViewType>> helpClass) {
+        super(helpClass);
+    }
+
     public OkAdapter addItemClickListener(int viewType, OnItemClickListener<? extends OkViewType> itemClickListener) {
         mItemClickMap.put(viewType, itemClickListener);
         super.defaultItemClickListener(new OkItemClickProxy(mItemClickMap));

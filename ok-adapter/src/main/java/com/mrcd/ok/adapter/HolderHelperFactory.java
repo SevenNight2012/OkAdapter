@@ -2,6 +2,11 @@ package com.mrcd.ok.adapter;
 
 import java.lang.reflect.Constructor;
 
+/**
+ * 创建HolderHelper的工厂类
+ *
+ * @param <T> 泛型参数，实体类型
+ */
 class HolderHelperFactory<T> {
 
     private Class<? extends OkHolderHelper<? extends T>> mInflaterClass;
